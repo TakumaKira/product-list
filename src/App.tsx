@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 
+import ProductCard from './components/ProductCard';
+import SearchBox from './components/SearchBox';
 import { getProducts } from './services/product';
-
-import logo from './logo.svg';
 import './App.css';
+import { State } from './types/state';
 
 class App extends Component {
+  state: State = {
+    products: [],
+  };
+
   async componentDidMount() {
     const products = await getProducts();
-    console.log(products);
+    products.splice(100, products.length - 100);
+    this.setState({ products });
   }
 
   render() {
+    const { products } = this.state;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <SearchBox />
+          </div>
+        </div>
+        <div className="row">
+          {products.map(product => (<div className="col my-3"><ProductCard product={product}/></div>))}
+        </div>
       </div>
     );
   }
