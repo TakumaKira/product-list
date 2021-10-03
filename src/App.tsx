@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import ImageOverlay from './components/ImageOverlay';
 
 import Pagination from './components/Pagination';
@@ -16,6 +17,7 @@ class App extends Component {
   state: State = {
     additionalImageUrls: [],
     currentPage: 1,
+    filterBySale: false,
     gender: 'all',
     maxProductsPerPage: 100,
     products: [],
@@ -34,7 +36,11 @@ class App extends Component {
 
   handleGenderFilter = (gender: string) => {
     this.setState({ gender, currentPage: 1 });
-  }
+  };
+
+  handleSaleFilter = (filterBySale: boolean) => {
+    this.setState({ filterBySale, currentPage: 1 });
+  };
 
   handlePageChange = (page: number) => {
     this.setState({ currentPage: page });
@@ -53,6 +59,7 @@ class App extends Component {
 
   getFilteredProducts = () => {
     const {
+      filterBySale,
       gender,
       products: allProducts,
       searchQuery,
@@ -63,7 +70,10 @@ class App extends Component {
       filtered = allProducts.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()))
     }
     if (gender !== 'all') {
-      filtered = filtered.filter(p => p.gender === gender || p.gender === null);
+      filtered = filtered.filter(p => p.gender === gender);
+    }
+    if (filterBySale) {
+      filtered = filtered.filter(p => p.price > p.sale_price);
     }
 
     return filtered;
@@ -73,6 +83,7 @@ class App extends Component {
     const {
       additionalImageUrls,
       currentPage,
+      filterBySale,
       gender,
       maxProductsPerPage,
       searchQuery,
@@ -96,6 +107,17 @@ class App extends Component {
               <Dropdown.Item onClick={() => this.handleGenderFilter('unisex')} active={gender === 'unisex'}>Unisex</Dropdown.Item>
             </DropdownButton>
           </div>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '150px'}}>
+            <ToggleButton
+              id="toggle-check"
+              type="checkbox"
+              variant="outline-primary"
+              checked={filterBySale}
+              value="1"
+              onChange={(e) => this.handleSaleFilter(e.currentTarget.checked)}
+            >
+            Filter by Sale
+          </ToggleButton>          </div>
         </div>
         <ProductList products={paginated} onProductClick={this.handleProductClick} />
         <div className="row">
