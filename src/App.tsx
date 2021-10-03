@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import ImageOverlay from './components/ImageOverlay';
 
 import Pagination from './components/Pagination';
@@ -14,6 +16,7 @@ class App extends Component {
   state: State = {
     additionalImageUrls: [],
     currentPage: 1,
+    gender: 'all',
     maxProductsPerPage: 100,
     products: [],
     searchQuery: '',
@@ -28,6 +31,10 @@ class App extends Component {
   handleSearch = (query: string) => {
     this.setState({ searchQuery: query, currentPage: 1 });
   };
+
+  handleGenderFilter = (gender: string) => {
+    this.setState({ gender, currentPage: 1 });
+  }
 
   handlePageChange = (page: number) => {
     this.setState({ currentPage: page });
@@ -46,13 +53,17 @@ class App extends Component {
 
   getFilteredProducts = () => {
     const {
+      gender,
       products: allProducts,
       searchQuery,
     } = this.state;
 
     let filtered = allProducts;
     if (searchQuery) {
-      filtered = allProducts.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()));
+      filtered = allProducts.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    }
+    if (gender !== 'all') {
+      filtered = filtered.filter(p => p.gender === gender || p.gender === null);
     }
 
     return filtered;
@@ -62,6 +73,7 @@ class App extends Component {
     const {
       additionalImageUrls,
       currentPage,
+      gender,
       maxProductsPerPage,
       searchQuery,
       showAdditionalImage,
@@ -75,6 +87,14 @@ class App extends Component {
         <div className="row">
           <div className="col">
             <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '260px'}}>
+            <DropdownButton id="dropdown-basic-button" title={`Filter by Gender (${gender})`}>
+              <Dropdown.Item onClick={() => this.handleGenderFilter('all')} active={gender === 'all'}>All</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.handleGenderFilter('male')} active={gender === 'male'}>Male</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.handleGenderFilter('female')} active={gender === 'female'}>Female</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.handleGenderFilter('unisex')} active={gender === 'unisex'}>Unisex</Dropdown.Item>
+            </DropdownButton>
           </div>
         </div>
         <ProductList products={paginated} onProductClick={this.handleProductClick} />
