@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+# Product List App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Feature
+
+- You can search product with Title.
+- You can filter search results by Gender and/or Sale.
+- If searched/filtered results exceed 100, you can paginate nicely😉
+- By clicking a product, you can check additional images(if it has) with carousel.
+- Every image is loaded asynchronously.
+- You can check any images even if you went off-line until page reload.
 
 ## Available Scripts
 
