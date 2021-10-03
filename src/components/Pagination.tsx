@@ -21,6 +21,7 @@ const Pagination = ({ itemsCount, maxItemsPerPage, currentPage, onPageChange }:
               </a>
             </li>
             : <li
+              key={page + Math.random()}
               className="page-item disabled"
               style={{width: '50px'}}
             >
