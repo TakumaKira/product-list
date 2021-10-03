@@ -1,8 +1,14 @@
 import { Product } from "../types/product";
+import AsyncImage from './AsyncImage';
 
 const ProductCard = ({product}: {product: Product}) =>
-  <div className="card" style={{width: '18rem', margin: 'auto'}}>
-    <img src={product.image_link} className="card-img-top" alt={product.title} style={{height: '18rem', objectFit: 'contain'}}/>
+  <div className="card" style={{width: '300px', margin: 'auto'}}>
+    <AsyncImage
+      src={product.image_link}
+      className="card-img-top"
+      width={300}
+      height={300}
+    />
     <div className="card-body">
       <h5 className="card-title">{product.title}</h5>
       <p className="card-text">{product.gtin}</p>

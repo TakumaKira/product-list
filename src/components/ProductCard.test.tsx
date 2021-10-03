@@ -1,6 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ProductCard from './ProductCard';
+import MockAsyncImage from './AsyncImage';
+
+jest.mock('./AsyncImage', () => {
+  return function DummyAsyncImage({src, className, width, height}: {src: string, className: string, width: number, height: number}) {
+    return (<canvas className={className} width={width} height={height}></canvas>);
+  };
+});
 
 const product = {
   title: 'Test title',
