@@ -1,4 +1,5 @@
 import Carousel from "react-bootstrap/Carousel";
+import AsyncImage from "./AsyncImage";
 
 const ImageOverlay = ({additionalImageUrls, onBgClick}: {additionalImageUrls: string[], onBgClick: Function}) => {
   return (<div
@@ -14,10 +15,10 @@ const ImageOverlay = ({additionalImageUrls, onBgClick}: {additionalImageUrls: st
       <Carousel>
         {additionalImageUrls.map((url: string) =>
           <Carousel.Item key={url}>
-            <img
+            <AsyncImage
               src={url}
-              style={{width: '800px', height: '600px', objectFit: 'contain'}}
-              alt=""
+              width={800}
+              height={600}
             />
           </Carousel.Item>
         )}

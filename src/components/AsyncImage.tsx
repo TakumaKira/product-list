@@ -1,7 +1,7 @@
 import { createRef, useEffect } from "react";
 
-const AsyncImage = ({src, className, width, height}:
-  {src: string, className: string, width: number, height: number}) => {
+const AsyncImage = ({src, width, height, className, bgColor, preloadBgColor}:
+  {src: string, width: number, height: number, className?: string, bgColor?: string, preloadBgColor?: string}) => {
   const canvasRef = createRef<HTMLCanvasElement>();
 
   useEffect(() => {
@@ -9,16 +9,20 @@ const AsyncImage = ({src, className, width, height}:
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d')!;
-    ctx.beginPath();
-    ctx.fillStyle = 'hsl(0, 0%, 75%)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (preloadBgColor) {
+      ctx.beginPath();
+      ctx.fillStyle = preloadBgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
   
     if (src) {
       const image = new Image();
       const handleLoad = () => {
-        ctx.beginPath();
-        ctx.fillStyle = 'hsl(0, 0%, 100%)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (bgColor) {
+          ctx.beginPath();
+          ctx.fillStyle = bgColor;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
         const imgAR = image.width / image.height;
         const canvasAR = canvas.width / canvas.height;
         if (imgAR < canvasAR) {

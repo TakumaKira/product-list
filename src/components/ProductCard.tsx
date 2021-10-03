@@ -8,6 +8,8 @@ const ProductCard = ({product}: {product: Product}) =>
       className="card-img-top"
       width={300}
       height={300}
+      bgColor={'hsl(0, 0%, 100%)'}
+      preloadBgColor={'hsl(0, 0%, 75%)'}
     />
     <div className="card-body">
       <h5 className="card-title">{product.title}</h5>
