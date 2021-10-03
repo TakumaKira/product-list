@@ -1,7 +1,8 @@
 import { Product } from "./product";
 
 export interface State {
-  maxProducts: number;
+  currentPage: number;
+  maxProductsPerPage: number;
   products: Product[];
   searchQuery: string;
 }

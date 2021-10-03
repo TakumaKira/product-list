@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 
+import Pagination from './components/Pagination';
 import ProductCard from './components/ProductCard';
 import SearchBox from './components/SearchBox';
 import { getProducts } from './services/product';
-import './App.css';
 import { State } from './types/state';
+import { paginate } from './utils/paginate';
 
 class App extends Component {
   state: State = {
-    maxProducts: 100,
+    currentPage: 1,
+    maxProductsPerPage: 100,
     products: [],
     searchQuery: '',
   };
@@ -19,12 +21,17 @@ class App extends Component {
   }
 
   handleSearch = (query: string) => {
-    this.setState({ searchQuery: query });
+    this.setState({ searchQuery: query, currentPage: 1 });
   };
+
+  handlePageChange = (page: number) => {
+    this.setState({ currentPage: page });
+  }
 
   getFilteredProducts = () => {
     const {
-      maxProducts,
+      currentPage,
+      maxProductsPerPage,
       products: allProducts,
       searchQuery,
     } = this.state;
@@ -33,19 +40,19 @@ class App extends Component {
     if (searchQuery) {
       filtered = allProducts.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()));
     }
-    if (filtered.length > maxProducts) {
-      filtered = filtered.slice(0, maxProducts);
-    }
 
     return filtered;
   };
 
   render() {
     const {
+      currentPage,
+      maxProductsPerPage,
       searchQuery,
     } = this.state;
 
-    const products = this.getFilteredProducts();
+    const filtered = this.getFilteredProducts();
+    const paginated = paginate(filtered, currentPage, maxProductsPerPage);
 
     return (
       <div className="container">
@@ -55,7 +62,12 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          {products.map(product => (<div className="col my-3" key={product.gtin}><ProductCard product={product}/></div>))}
+          {paginated.map(product => (<div className="col my-3" key={product.gtin}><ProductCard product={product}/></div>))}
+        </div>
+        <div className="row">
+          <div className="col">
+            <Pagination itemsCount={filtered.length} maxItemsPerPage={maxProductsPerPage} currentPage={currentPage} onPageChange={this.handlePageChange} />
+          </div>
         </div>
       </div>
     );
