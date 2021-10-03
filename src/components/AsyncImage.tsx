@@ -1,7 +1,8 @@
 import { createRef, useEffect } from "react";
 
-const AsyncImage = ({src, width, height, className, bgColor, preloadBgColor}:
-  {src: string, width: number, height: number, className?: string, bgColor?: string, preloadBgColor?: string}) => {
+const AsyncImage = ({src, width, height, cachedImages, className, bgColor, preloadBgColor}:
+  {src: string, width: number, height: number, cachedImages: { [url in string]: HTMLImageElement }, className?: string, bgColor?: string, preloadBgColor?: string}) => {
+
   const canvasRef = createRef<HTMLCanvasElement>();
 
   useEffect(() => {
@@ -16,8 +17,7 @@ const AsyncImage = ({src, width, height, className, bgColor, preloadBgColor}:
     }
   
     if (src) {
-      const image = new Image();
-      const handleLoad = () => {
+      const drawContext = (image: HTMLImageElement) => {
         if (bgColor) {
           ctx.beginPath();
           ctx.fillStyle = bgColor;
@@ -31,11 +31,21 @@ const AsyncImage = ({src, width, height, className, bgColor, preloadBgColor}:
           ctx.drawImage(image, 0, (canvas.height - canvas.width / imgAR) / 2, canvas.width, canvas.width / imgAR);
         }
       };
-      image.addEventListener('load', handleLoad);
-      image.src = src;
-      return () => {
-        image.removeEventListener('load', handleLoad);
-      };
+
+      if (!cachedImages[src]) {
+        const image = new Image();
+        const handleLoad = () => {
+          cachedImages[src] = image;
+          drawContext(cachedImages[src]);
+        };
+        image.addEventListener('load', handleLoad);
+        image.src = src;
+        return () => {
+          image.removeEventListener('load', handleLoad);
+        };
+      } else {
+        drawContext(cachedImages[src]);
+      }
     }
   }, [src]);
 

@@ -1,13 +1,14 @@
 import { Product } from "../types/product";
 import AsyncImage from './AsyncImage';
 
-const ProductCard = ({product}: {product: Product}) =>
+const ProductCard = ({product, cachedImages}: {product: Product, cachedImages: { [url in string]: HTMLImageElement }}) =>
   <div className="card" style={{width: '300px', margin: 'auto'}}>
     <AsyncImage
       src={product.image_link}
       className="card-img-top"
       width={300}
       height={300}
+      cachedImages={cachedImages}
       bgColor={'hsl(0, 0%, 100%)'}
       preloadBgColor={'hsl(0, 0%, 75%)'}
     />

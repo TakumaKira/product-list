@@ -25,6 +25,8 @@ class App extends Component {
     showAdditionalImage: false,
   };
 
+  cachedImages: { [url in string]: HTMLImageElement } = {};
+
   async componentDidMount() {
     const products = await getProducts();
     this.setState({ products });
@@ -119,13 +121,13 @@ class App extends Component {
             Filter by Sale
           </ToggleButton>          </div>
         </div>
-        <ProductList products={paginated} onProductClick={this.handleProductClick} />
+        <ProductList products={paginated} onProductClick={this.handleProductClick} cachedImages={this.cachedImages} />
         <div className="row">
           <div className="col">
             <Pagination itemsCount={filtered.length} maxItemsPerPage={maxProductsPerPage} currentPage={currentPage} onPageChange={this.handlePageChange} />
           </div>
         </div>
-        { showAdditionalImage ? <ImageOverlay additionalImageUrls={additionalImageUrls} onBgClick={this.handleOverlayBgClick} /> : null}
+        { showAdditionalImage ? <ImageOverlay additionalImageUrls={additionalImageUrls} onBgClick={this.handleOverlayBgClick} cachedImages={this.cachedImages} /> : null}
       </div>
     );
   }
