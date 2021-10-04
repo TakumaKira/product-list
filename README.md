@@ -11,9 +11,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Every image is loaded asynchronously.
 - You can check any images even if you went off-line until page reload.
 
+## Install Yarn
+
+This project prefers Yarn to manage packages.\
+To install Yarn, please follow instruction [here](https://yarnpkg.com/getting-started/install).
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `yarn install`
+
+Right after cloning, you need to run this command to run the scripts below.
 
 ### `yarn start`
 
