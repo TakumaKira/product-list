@@ -2,29 +2,19 @@ import React, { Component } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import ImageOverlay from './components/ImageOverlay';
 
+import ImageOverlay from './components/ImageOverlay';
 import Pagination from './components/Pagination';
 import ProductList from './components/ProductList';
 import SearchBox from './components/SearchBox';
 import { getProducts } from './services/product';
 import { Product } from './types/product';
-import { State } from './types/state';
+import { initialState, State } from './types/state';
 import { paginate } from './utils/paginate';
 import { sanitizeUrls } from './utils/sanitizeUrls';
 
 class App extends Component {
-  state: State = {
-    additionalImageUrls: [],
-    currentPage: 1,
-    filterBySale: false,
-    gender: 'all',
-    maxProductsPerPage: 100,
-    products: [],
-    searchQuery: '',
-    showAdditionalImage: false,
-  };
-
+  state: State = initialState;
   cachedImages: { [url in string]: HTMLImageElement } = {};
 
   async componentDidMount() {

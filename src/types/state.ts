@@ -10,3 +10,14 @@ export interface State {
   searchQuery: string;
   showAdditionalImage: boolean;
 }
+
+export const initialState: State = {
+  additionalImageUrls: [],
+  currentPage: 1,
+  filterBySale: false,
+  gender: 'all',
+  maxProductsPerPage: 100,
+  products: [],
+  searchQuery: '',
+  showAdditionalImage: false,
+};
