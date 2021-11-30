@@ -5,6 +5,8 @@ async function get(url: string) {
   return res.data;
 }
 
-export default {
+const exports = {
   get,
 };
+
+export default exports;
