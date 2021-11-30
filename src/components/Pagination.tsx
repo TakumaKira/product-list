@@ -16,18 +16,18 @@ const Pagination = ({ itemsCount, maxItemsPerPage, currentPage, onPageChange }:
               className={page === currentPage ? "page-item active" : "page-item"}
               style={{width: '50px'}}
             >
-              <a className="page-link" style={{textAlign: 'center'}} onClick={() => onPageChange(page)}>
+              <button className="page-link" style={{textAlign: 'center'}} onClick={() => onPageChange(page)}>
                 {page}
-              </a>
+              </button>
             </li>
             : <li
               key={page + Math.random()}
               className="page-item disabled"
               style={{width: '50px'}}
             >
-              <a className="page-link" style={{textAlign: 'center'}}>
+              <button className="page-link" style={{textAlign: 'center'}}>
                 {page}
-              </a>
+              </button>
             </li>)
         )}
       </ul>
