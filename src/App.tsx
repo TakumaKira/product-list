@@ -25,26 +25,20 @@ class App extends Component {
   handleSearch = (query: string) => {
     this.setState({ searchQuery: query, currentPage: 1 });
   };
-
   handleGenderFilter = (gender: string) => {
     this.setState({ gender, currentPage: 1 });
   };
-
   handleSaleFilter = (filterBySale: boolean) => {
     this.setState({ filterBySale, currentPage: 1 });
   };
-
   handlePageChange = (page: number) => {
     this.setState({ currentPage: page });
   };
-
   handleProductClick = (product: Product) => {
     const urls = sanitizeUrls(product.additional_image_link);
-    if (urls.length > 0) {
-      this.setState({ showAdditionalImage: true, additionalImageUrls: urls });
-    }
+    if (urls.length < 1) return;
+    this.setState({ showAdditionalImage: true, additionalImageUrls: urls });
   };
-
   handleOverlayBgClick = () => {
     this.setState({ showAdditionalImage: false, additionalImageUrls: [] });
   };
@@ -108,8 +102,9 @@ class App extends Component {
               value="1"
               onChange={(e) => this.handleSaleFilter(e.currentTarget.checked)}
             >
-            Filter by Sale
-          </ToggleButton>          </div>
+              Filter by Sale
+            </ToggleButton>
+          </div>
         </div>
         <ProductList products={paginated} onProductClick={this.handleProductClick} cachedImages={this.cachedImages} />
         <div className="row">
