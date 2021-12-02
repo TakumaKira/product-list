@@ -1,4 +1,4 @@
-import { preparePages } from "../utils/preparePages";
+import { preparePages } from "../utils/paginate";
 
 const Pagination = ({ itemsCount, maxItemsPerPage, currentPage, onPageChange }:
   { itemsCount: number, maxItemsPerPage: number, currentPage: number, onPageChange: Function }) => {
